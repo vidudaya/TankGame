@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="20" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="mapBasic" tilewidth="32" tileheight="32">
+  <image source="mapBasic.png" width="640" height="480"/>
+ </tileset>
+ <layer name="Map" width="20" height="20">
+  <properties>
+   <property name="Main" value=""/>
+  </properties>
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC7vHwMBwjwj8kEhMjFmj5o2aN1TMG8WjeBTjxgCv7IN/QAYAAA==
+  </data>
+ </layer>
+</map>
