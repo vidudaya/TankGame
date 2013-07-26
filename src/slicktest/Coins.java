@@ -12,9 +12,7 @@ import org.newdawn.slick.tests.xml.Entity;
  * @author DELL
  */
 public class Coins {
-    
-    
-    
+   
     private int x;
     private int y;
     private int value;

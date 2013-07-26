@@ -189,6 +189,7 @@ public class Game extends BasicGame {
         HandleTanks htanks = new HandleTanks();
         HandleCoinsAndHealth hcoinshealth = new HandleCoinsAndHealth();
         hcoinshealth.updateCoin(delta);
+        hcoinshealth.detectCoinCollisions();
         try {
             String message = server.readSENDMessage();
             System.out.println("msg : " + message);
