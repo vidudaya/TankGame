@@ -30,6 +30,7 @@ public class Game extends BasicGame {
     private int myTank;
     public static int[][] tank_positions;
     public static ArrayList<Coins> coins = new ArrayList<>();
+    public static ArrayList<Life> lives = new ArrayList<>();
 
     public Game() {
         super("Tank game");
@@ -56,6 +57,7 @@ public class Game extends BasicGame {
         Image[] stone = {new Image("Images/rock.jpg"), new Image("Images/rock.jpg")};
         Image[] water = {new Image("Images/water.jpg"), new Image("Images/water.jpg")};
         Image[] coin = {new Image("Images/coin.png"), new Image("Images/coin.png")};
+        Image[] health = {new Image("Images/health.png"), new Image("Images/health.png")};
         Image fff = new Image("Images/water.jpg");
 
         Image[][][] tanks_aims = new Image[5][4][2];
@@ -190,6 +192,8 @@ public class Game extends BasicGame {
         HandleCoinsAndHealth hcoinshealth = new HandleCoinsAndHealth();
         hcoinshealth.updateCoin(delta);
         hcoinshealth.detectCoinCollisions();
+        hcoinshealth.updateLife(delta);
+        hcoinshealth.detectLifeCollisions();
         try {
             String message = server.readSENDMessage();
             System.out.println("msg : " + message);
@@ -200,7 +204,8 @@ public class Game extends BasicGame {
             } else if (message.charAt(0) == 'C' && message.charAt(1) == ':') {
                 hcoinshealth.handleCoins(message, SIZE);
                 //hcoinshealth.updateCoin();
-            } else {
+            } else if (message.charAt(0) == 'L' && message.charAt(1) == ':') {
+                hcoinshealth.handleLives(message, SIZE);
             }
         } catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
@@ -218,12 +223,16 @@ public class Game extends BasicGame {
         for (int i = 0; i < waters.length; i++) {
             waters[i].draw(water_coordinates[i][0] + SIZE, water_coordinates[i][1] + SIZE, SIZE, SIZE);
         }
-        for (int i = 0; i < tanks.length; i++) {
-            tanks[i][tank_positions[i][2]].draw(tank_positions[i][0] + SIZE, tank_positions[i][1] + SIZE, SIZE, SIZE);
+        for (int i = 0; i < lives.size(); i++) {
+            lives.get(i).getAnime().draw(lives.get(i).getX() + SIZE, lives.get(i).getY() + SIZE, SIZE, SIZE);
         }
 
         for (int i = 0; i < coins.size(); i++) {
             coins.get(i).getAnime().draw(coins.get(i).getX() + SIZE, coins.get(i).getY() + SIZE, SIZE, SIZE);
         }
+        for (int i = 0; i < tanks.length; i++) {
+            tanks[i][tank_positions[i][2]].draw(tank_positions[i][0] + SIZE, tank_positions[i][1] + SIZE, SIZE, SIZE);
+        }
+
     }
 }
