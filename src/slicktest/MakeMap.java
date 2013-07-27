@@ -1,18 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package slicktest;
 
 /**
  *
- * @author DELL
+ * @author HitMan
  */
 public class MakeMap {
 
     public int[][] markBricks(String s, int cell_Size) {
         String points[] = s.split(";");
-        int bricks[][] = new int[points.length][2];
+        int bricks[][] = new int[points.length][3];
 
         for (int i = 0; i < bricks.length; i++) {
             String temp[] = points[i].split(",");
@@ -62,5 +58,23 @@ public class MakeMap {
         }
 
         return tanks;
+    }
+
+    public void updateBrickStatus(String s, int cell_size, int mapWidth, int mapHeight) {
+        String tokens[] = s.replaceAll("#", "").split(":");
+
+        String brick_status = tokens[tokens.length - 1];
+        String status[] = brick_status.split(";");
+        for (int i = 0; i < status.length; i++) {
+            int x = (Integer.parseInt(status[1].split(",")[0]) - 1) * cell_size;
+            int y = (Integer.parseInt(status[1].split(",")[1]) - 1) * cell_size;
+            int level = (Integer.parseInt(status[1].split(",")[2]));
+
+            for (int j = 0; j < Game.bricks_coordinates.length; j++) {
+                if (Game.bricks_coordinates[j][0] == x && Game.bricks_coordinates[j][1] == y) {
+                    Game.bricks_coordinates[j][2] = level;
+                }
+            }
+        }
     }
 }

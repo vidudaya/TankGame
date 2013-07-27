@@ -1,5 +1,8 @@
 package slicktest;
-
+/**
+ *
+ * @author HitMan
+ */
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -24,13 +27,16 @@ public class Game extends BasicGame {
     private static final int SIZE = 50;
     private boolean[][] blocked;
     private static Server server;
-    private int[][] bricks_coordinates;
+    public static int[][] bricks_coordinates;
+    private int[][] newBrickSystem;// with damage level
     private int[][] stone_coordinates;
     private int[][] water_coordinates;
     private int myTank;
     public static int[][] tank_positions;
     public static ArrayList<Coins> coins = new ArrayList<>();
     public static ArrayList<Life> lives = new ArrayList<>();
+    private static final int mapLenght = 10;
+    private static final int mapWidth = 10;
 
     public Game() {
         super("Tank game");
@@ -41,7 +47,7 @@ public class Game extends BasicGame {
             new Play().start();
             server = new Server();
             AppGameContainer app = new AppGameContainer(new Game());
-            app.setDisplayMode(SIZE * 10, SIZE * 10, false);
+            app.setDisplayMode(SIZE * mapLenght, SIZE * mapWidth, false);
             app.start();
         } catch (SlickException e) {
             e.printStackTrace();
@@ -190,6 +196,7 @@ public class Game extends BasicGame {
         Input input = container.getInput();
         HandleTanks htanks = new HandleTanks();
         HandleCoinsAndHealth hcoinshealth = new HandleCoinsAndHealth();
+        MakeMap makeMap = new MakeMap();
         hcoinshealth.updateCoin(delta);
         hcoinshealth.detectCoinCollisions();
         hcoinshealth.updateLife(delta);
@@ -200,7 +207,7 @@ public class Game extends BasicGame {
             if (message.length() > 6 && message.charAt(0) == 'G') {
 //                new Play().makeMove("UP#");
                 htanks.setNewTankPositions(message, SIZE);
-
+                makeMap.updateBrickStatus(message, delta, mapWidth, mapLenght);
             } else if (message.charAt(0) == 'C' && message.charAt(1) == ':') {
                 hcoinshealth.handleCoins(message, SIZE);
                 //hcoinshealth.updateCoin();
@@ -215,7 +222,9 @@ public class Game extends BasicGame {
     public void render(GameContainer container, Graphics g) throws SlickException {
         grassMap.render(0, 0);
         for (int i = 0; i < bricks.length; i++) {
-            bricks[i].draw(bricks_coordinates[i][0] + SIZE, bricks_coordinates[i][1] + SIZE, SIZE, SIZE);
+            if (bricks_coordinates[i][2] != 4) {
+                bricks[i].draw(bricks_coordinates[i][0] + SIZE, bricks_coordinates[i][1] + SIZE, SIZE, SIZE);
+            }
         }
         for (int i = 0; i < stones.length; i++) {
             stones[i].draw(stone_coordinates[i][0] + SIZE, stone_coordinates[i][1] + SIZE, SIZE, SIZE);
