@@ -1,4 +1,5 @@
 package slicktest;
+
 /**
  *
  * @author HitMan
@@ -197,6 +198,9 @@ public class Game extends BasicGame {
         HandleTanks htanks = new HandleTanks();
         HandleCoinsAndHealth hcoinshealth = new HandleCoinsAndHealth();
         MakeMap makeMap = new MakeMap();
+        MoveAndShoot moveAndShoot = new MoveAndShoot();
+        Play play = new Play();
+
         hcoinshealth.updateCoin(delta);
         hcoinshealth.detectCoinCollisions();
         hcoinshealth.updateLife(delta);
@@ -207,13 +211,17 @@ public class Game extends BasicGame {
             if (message.length() > 6 && message.charAt(0) == 'G') {
 //                new Play().makeMove("UP#");
                 htanks.setNewTankPositions(message, SIZE);
-                makeMap.updateBrickStatus(message, delta, mapWidth, mapLenght);
+                makeMap.updateBrickStatus(message, SIZE, mapWidth, mapLenght);
+                play.makeMove(moveAndShoot.getTheNextMove());
             } else if (message.charAt(0) == 'C' && message.charAt(1) == ':') {
                 hcoinshealth.handleCoins(message, SIZE);
+                play.makeMove(moveAndShoot.getTheNextMove());
                 //hcoinshealth.updateCoin();
             } else if (message.charAt(0) == 'L' && message.charAt(1) == ':') {
                 hcoinshealth.handleLives(message, SIZE);
+                play.makeMove(moveAndShoot.getTheNextMove());
             }
+
         } catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }

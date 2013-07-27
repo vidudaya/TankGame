@@ -66,14 +66,17 @@ public class MakeMap {
         String brick_status = tokens[tokens.length - 1];
         String status[] = brick_status.split(";");
         for (int i = 0; i < status.length; i++) {
-            int x = (Integer.parseInt(status[1].split(",")[0]) - 1) * cell_size;
-            int y = (Integer.parseInt(status[1].split(",")[1]) - 1) * cell_size;
-            int level = (Integer.parseInt(status[1].split(",")[2]));
+            int x = (Integer.parseInt(status[i].split(",")[0]) - 1) * cell_size;
+            int y = (Integer.parseInt(status[i].split(",")[1]) - 1) * cell_size;
+            int level = (Integer.parseInt(status[i].split(",")[2]));
 
             for (int j = 0; j < Game.bricks_coordinates.length; j++) {
+                System.out.println(Game.bricks_coordinates[j][0] + "  " + Game.bricks_coordinates[j][1]);
                 if (Game.bricks_coordinates[j][0] == x && Game.bricks_coordinates[j][1] == y) {
                     Game.bricks_coordinates[j][2] = level;
+
                 }
+
             }
         }
     }
