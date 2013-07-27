@@ -25,19 +25,20 @@ public class Game extends BasicGame {
     private Animation waters[];
     private Animation tanks[][];
     private float x = 34f * 4, y = 34f * 4;
-    private static final int SIZE = 50;
+    public static final int SIZE = 50;
     private boolean[][] blocked;
     private static Server server;
     public static int[][] bricks_coordinates;
     private int[][] newBrickSystem;// with damage level
     private int[][] stone_coordinates;
     private int[][] water_coordinates;
-    private int myTank;
+    public static int myTank;
     public static int[][] tank_positions;
     public static ArrayList<Coins> coins = new ArrayList<>();
     public static ArrayList<Life> lives = new ArrayList<>();
-    private static final int mapLenght = 10;
-    private static final int mapWidth = 10;
+    public static final int mapLenght = 10;
+    public static final int mapWidth = 10;
+    public static int[][] map;// bricks =1,stones = 2, water = 3 , tank =4 , coin =5, life = 6;
 
     public Game() {
         super("Tank game");
@@ -49,6 +50,7 @@ public class Game extends BasicGame {
             server = new Server();
             AppGameContainer app = new AppGameContainer(new Game());
             app.setDisplayMode(SIZE * mapLenght, SIZE * mapWidth, false);
+            map = new int[mapLenght][mapWidth];
             app.start();
         } catch (SlickException e) {
             e.printStackTrace();
@@ -199,6 +201,8 @@ public class Game extends BasicGame {
         HandleCoinsAndHealth hcoinshealth = new HandleCoinsAndHealth();
         MakeMap makeMap = new MakeMap();
         MoveAndShoot moveAndShoot = new MoveAndShoot();
+        RunWithNoGUI mapPrint = new RunWithNoGUI();
+        
         Play play = new Play();
 
         hcoinshealth.updateCoin(delta);
@@ -213,6 +217,7 @@ public class Game extends BasicGame {
                 htanks.setNewTankPositions(message, SIZE);
                 makeMap.updateBrickStatus(message, SIZE, mapWidth, mapLenght);
                 play.makeMove(moveAndShoot.getTheNextMove());
+                mapPrint.printMap(map);
             } else if (message.charAt(0) == 'C' && message.charAt(1) == ':') {
                 hcoinshealth.handleCoins(message, SIZE);
                 play.makeMove(moveAndShoot.getTheNextMove());
@@ -231,24 +236,24 @@ public class Game extends BasicGame {
         grassMap.render(0, 0);
         for (int i = 0; i < bricks.length; i++) {
             if (bricks_coordinates[i][2] != 4) {
-                bricks[i].draw(bricks_coordinates[i][0] + SIZE, bricks_coordinates[i][1] + SIZE, SIZE, SIZE);
+                bricks[i].draw(bricks_coordinates[i][0], bricks_coordinates[i][1], SIZE, SIZE);
             }
         }
         for (int i = 0; i < stones.length; i++) {
-            stones[i].draw(stone_coordinates[i][0] + SIZE, stone_coordinates[i][1] + SIZE, SIZE, SIZE);
+            stones[i].draw(stone_coordinates[i][0], stone_coordinates[i][1], SIZE, SIZE);
         }
         for (int i = 0; i < waters.length; i++) {
-            waters[i].draw(water_coordinates[i][0] + SIZE, water_coordinates[i][1] + SIZE, SIZE, SIZE);
+            waters[i].draw(water_coordinates[i][0], water_coordinates[i][1], SIZE, SIZE);
         }
         for (int i = 0; i < lives.size(); i++) {
-            lives.get(i).getAnime().draw(lives.get(i).getX() + SIZE, lives.get(i).getY() + SIZE, SIZE, SIZE);
+            lives.get(i).getAnime().draw(lives.get(i).getX(), lives.get(i).getY(), SIZE, SIZE);
         }
 
         for (int i = 0; i < coins.size(); i++) {
-            coins.get(i).getAnime().draw(coins.get(i).getX() + SIZE, coins.get(i).getY() + SIZE, SIZE, SIZE);
+            coins.get(i).getAnime().draw(coins.get(i).getX(), coins.get(i).getY(), SIZE, SIZE);
         }
         for (int i = 0; i < tanks.length; i++) {
-            tanks[i][tank_positions[i][2]].draw(tank_positions[i][0] + SIZE, tank_positions[i][1] + SIZE, SIZE, SIZE);
+            tanks[i][tank_positions[i][2]].draw(tank_positions[i][0], tank_positions[i][1], SIZE, SIZE);
         }
 
     }

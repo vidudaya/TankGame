@@ -1,4 +1,3 @@
- 
 package slicktest;
 
 /**
@@ -12,8 +11,9 @@ public class HandleTanks {
 
         for (int i = 1; i < tokens.length - 1; i++) {
             String set[] = tokens[i].split(";");
-            int x = (Integer.parseInt(set[1].split(",")[0]) - 1) * cell_size;
-            int y = (Integer.parseInt(set[1].split(",")[1]) - 1) * cell_size;
+            int x = (Integer.parseInt(set[1].split(",")[0])) * cell_size;
+            int y = (Integer.parseInt(set[1].split(",")[1])) * cell_size;
+            Game.map[Game.tank_positions[i - 1][0] / cell_size][Game.tank_positions[i - 1][1] / cell_size] = 0;
             Game.tank_positions[i - 1][0] = x;
             Game.tank_positions[i - 1][1] = y;
             Game.tank_positions[i - 1][2] = Integer.parseInt(set[2]);//position
@@ -21,6 +21,7 @@ public class HandleTanks {
             Game.tank_positions[i - 1][4] = Integer.parseInt(set[4]);//health
             Game.tank_positions[i - 1][5] = Integer.parseInt(set[5]);//coins
             Game.tank_positions[i - 1][6] = Integer.parseInt(set[6]);//points
+            Game.map[x / cell_size][y / cell_size] = 4;
         }
     }
 }
