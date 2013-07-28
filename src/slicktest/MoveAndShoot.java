@@ -1,5 +1,8 @@
 package slicktest;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author HitMan
@@ -8,12 +11,19 @@ public class MoveAndShoot {
 
     public String getTheNextMove() {
         makeEdges();
+        Game.edges = makeEdges();
+
         String next_move;
-        next_move = "SHOOT#";
+        next_move = new AI().getPath();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(MoveAndShoot.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return next_move;
     }
 
-    public void makeEdges() {
+    public boolean[][] makeEdges() {
         boolean edges[][] = new boolean[Game.mapLenght * Game.mapWidth][Game.mapLenght * Game.mapWidth];
 
         for (int i = 0; i < Game.mapLenght; i++) {
@@ -21,31 +31,31 @@ public class MoveAndShoot {
                 if (notBlocked(i, j)) {
                     int now_cell = getTheMapNumber(i, j);
 
-                    System.out.println("now cell " + now_cell);
+                    // System.out.println("now cell " + now_cell);
 
                     int neib_1 = now_cell + Game.mapWidth;// height or width ?????????????????
                     int neib_2 = now_cell - Game.mapWidth;
                     int neib_3 = now_cell + 1;
                     int neib_4 = now_cell - 1;
-                    System.out.println(neib_1 + "  " + neib_2 + "  " + neib_3 + "  " + neib_4+ "   @@@ "+Game.mapLenght+"  "+Game.mapWidth);
-                   
-                    System.out.println(neib_1 / Game.mapWidth+"  "+neib_1 % Game.mapWidth);
-                    if (isValidMapNumber(neib_1) && notBlocked(neib_1 / Game.mapWidth, neib_1 % Game.mapWidth)) {// check the side
+                    //System.out.println(neib_1 + "  " + neib_2 + "  " + neib_3 + "  " + neib_4 + "   @@@ " + Game.mapLenght + "  " + Game.mapWidth);
+
+                    // System.out.println(neib_1 / Game.mapWidth + "  " + neib_1 % Game.mapWidth);
+                    if (isValidMapNumber(neib_1, now_cell) && notBlocked(neib_1 / Game.mapWidth, neib_1 % Game.mapWidth)) {// check the side
                         edges[now_cell][neib_1] = true;
                         edges[neib_1][now_cell] = true;
                     }
-                    System.out.println(neib_2 / Game.mapWidth+"  "+neib_2 % Game.mapWidth);
-                    if (isValidMapNumber(neib_2) && notBlocked(neib_2 / Game.mapWidth, neib_2 % Game.mapWidth)) {// check the side
+                    //  System.out.println(neib_2 / Game.mapWidth + "  " + neib_2 % Game.mapWidth);
+                    if (isValidMapNumber(neib_2, now_cell) && notBlocked(neib_2 / Game.mapWidth, neib_2 % Game.mapWidth)) {// check the side
                         edges[now_cell][neib_2] = true;
                         edges[neib_2][now_cell] = true;
                     }
-                    System.out.println(neib_3 / Game.mapWidth+"  "+neib_3 % Game.mapWidth);
-                    if (isValidMapNumber(neib_3) && notBlocked(neib_3 / Game.mapWidth, neib_3 % Game.mapWidth)) {// check the side
+                    //  System.out.println(neib_3 / Game.mapWidth + "  " + neib_3 % Game.mapWidth);
+                    if (isValidMapNumber(neib_3, now_cell) && notBlocked(neib_3 / Game.mapWidth, neib_3 % Game.mapWidth)) {// check the side
                         edges[now_cell][neib_3] = true;
                         edges[neib_3][now_cell] = true;
                     }
-                    System.out.println(neib_4 / Game.mapWidth+"  "+neib_4 % Game.mapWidth);
-                    if (isValidMapNumber(neib_4) && notBlocked(neib_4 / Game.mapWidth, neib_4 % Game.mapWidth)) {// check the side
+                    //  System.out.println(neib_4 / Game.mapWidth + "  " + neib_4 % Game.mapWidth);
+                    if (isValidMapNumber(neib_4, now_cell) && notBlocked(neib_4 / Game.mapWidth, neib_4 % Game.mapWidth)) {// check the side
                         edges[now_cell][neib_4] = true;
                         edges[neib_4][now_cell] = true;
                     }
@@ -54,17 +64,24 @@ public class MoveAndShoot {
 
         }
 
-        for (int i = 0; i < Game.mapLenght * Game.mapWidth; i++) {
-            for (int j = 0; j < Game.mapLenght * Game.mapWidth; j++) {
-                System.out.println(i + " to " + j + "   " + edges[i][j]);
-            }
-            System.out.println("");
-        }
+//        for (int i = 0; i < Game.mapLenght * Game.mapWidth; i++) {
+//            for (int j = 0; j < Game.mapLenght * Game.mapWidth; j++) {
+//                System.out.println(i + " to " + j + "   " + edges[i][j]);
+//            }
+//            System.out.println("");
+//        }
+        return edges;
     }
 
-    public boolean isValidMapNumber(int num) {
+    public boolean isValidMapNumber(int num, int now_cell) {
         boolean status = true;
         if (num < 0 || num >= Game.mapLenght * Game.mapWidth) {
+            status = false;
+        }
+        if (now_cell % Game.mapLenght == Game.mapLenght - 1 && num - now_cell == 1) {
+            status = false;
+        }
+        if (now_cell % Game.mapLenght == 0 && num - now_cell == -1) {
             status = false;
         }
         return status;
@@ -82,10 +99,10 @@ public class MoveAndShoot {
 //        if (Game.map[j][i] != 1 && Game.map[j][i] != 2 && Game.map[j][i] != 3) {
 //            status = true;
 //        }
-        if(!status){
-        System.out.println("############################################  i = "+i+"  j = "+j);
-        }//System.out.println("i = "+i+" j = "+j);
-         
+//        if (!status) {
+//            System.out.println("############################################  i = " + i + "  j = " + j);
+//        }//System.out.println("i = "+i+" j = "+j);
+
         return status;
 
     }
