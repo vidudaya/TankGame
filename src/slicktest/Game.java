@@ -39,7 +39,6 @@ public class Game extends BasicGame {
     public static final int mapLenght = 10;
     public static final int mapWidth = 10;
     public static int[][] map;// bricks =1,stones = 2, water = 3 , tank =4 , coin =5, life = 6;
-    
     public static boolean edges[][];
 
     public Game() {
@@ -204,7 +203,7 @@ public class Game extends BasicGame {
         MakeMap makeMap = new MakeMap();
         MoveAndShoot moveAndShoot = new MoveAndShoot();
         RunWithNoGUI mapPrint = new RunWithNoGUI();
-        
+
         Play play = new Play();
 
         hcoinshealth.updateCoin(delta);
@@ -222,11 +221,12 @@ public class Game extends BasicGame {
                 mapPrint.printMap(map);
             } else if (message.charAt(0) == 'C' && message.charAt(1) == ':') {
                 hcoinshealth.handleCoins(message, SIZE);
-               // play.makeMove(moveAndShoot.getTheNextMove());
+                // play.makeMove(moveAndShoot.getTheNextMove());
                 //hcoinshealth.updateCoin();
             } else if (message.charAt(0) == 'L' && message.charAt(1) == ':') {
                 hcoinshealth.handleLives(message, SIZE);
-               // play.makeMove(moveAndShoot.getTheNextMove());
+                // play.makeMove(moveAndShoot.getTheNextMove());
+            } else if (message.charAt(0) == 'C') {
             }
 
         } catch (IOException ex) {

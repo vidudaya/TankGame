@@ -113,14 +113,26 @@ public class AI {
 
         int myView = Game.tank_positions[Game.myTank][2];
 
-        if (target_cell == myPlace + 10) {
+        if (target_cell == myPlace + Game.mapLenght) {
             move = "RIGHT#";
-        } else if (target_cell == myPlace - 10) {
+            if (Game.map[(myPlace + 10) / Game.mapLenght][(myPlace + 10) % Game.mapLenght] == 4) {
+                move = "SHOOT#";
+            }
+        } else if (target_cell == myPlace - Game.mapLenght) {
             move = "LEFT#";
+            if (Game.map[(myPlace - 10) / Game.mapLenght][(myPlace - 10) % Game.mapLenght] == 4) {
+                move = "SHOOT#";
+            }
         } else if (target_cell == myPlace + 1) {
             move = "DOWN#";
+            if (Game.map[(myPlace + 1) / Game.mapLenght][(myPlace + 1) % Game.mapLenght] == 4) {
+                move = "SHOOT#";
+            }
         } else if (target_cell == myPlace - 1) {
             move = "UP#";
+            if (Game.map[(myPlace - 1) / Game.mapLenght][(myPlace - 1) % Game.mapLenght] == 4) {
+                move = "SHOOT#";
+            }
         }
         return move;
     }
