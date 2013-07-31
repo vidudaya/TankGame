@@ -21,7 +21,11 @@ public class HandleTanks {
             Game.tank_positions[i - 1][4] = Integer.parseInt(set[4]);//health
             Game.tank_positions[i - 1][5] = Integer.parseInt(set[5]);//coins
             Game.tank_positions[i - 1][6] = Integer.parseInt(set[6]);//points
-            Game.map[x / cell_size][y / cell_size] = 4;
+            if (Game.tank_positions[i - 1][4] > 0) {
+                Game.map[x / cell_size][y / cell_size] = 4;
+            }else{
+                System.out.println("#########  Tank Destroyed = "+(i-1));
+            }
         }
     }
 }

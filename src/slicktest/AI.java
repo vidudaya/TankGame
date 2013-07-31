@@ -113,25 +113,62 @@ public class AI {
 
         int myView = Game.tank_positions[Game.myTank][2];
 
-        if (target_cell == myPlace + Game.mapLenght) {
-            move = "RIGHT#";
-            if (Game.map[(myPlace + 10) / Game.mapLenght][(myPlace + 10) % Game.mapLenght] == 4) {
-                move = "SHOOT#";
+        int method = 1;
+
+
+        if (method == 1) {
+            if (target_cell == myPlace + Game.mapLenght) {
+                move = "RIGHT#";
+            } else if (target_cell == myPlace - Game.mapLenght) {
+                move = "LEFT#";
+            } else if (target_cell == myPlace + 1) {
+                move = "DOWN#";
+            } else if (target_cell == myPlace - 1) {
+                move = "UP#";
             }
-        } else if (target_cell == myPlace - Game.mapLenght) {
-            move = "LEFT#";
-            if (Game.map[(myPlace - 10) / Game.mapLenght][(myPlace - 10) % Game.mapLenght] == 4) {
-                move = "SHOOT#";
+        } else if (method == 2) {
+            if (target_cell == myPlace + Game.mapLenght) {
+                move = "RIGHT#";
+                if (Game.map[(myPlace + 10) / Game.mapLenght][(myPlace + 10) % Game.mapLenght] == 4) {
+                    move = "SHOOT#";
+                }
+            } else if (target_cell == myPlace - Game.mapLenght) {
+                move = "LEFT#";
+                if (Game.map[(myPlace - 10) / Game.mapLenght][(myPlace - 10) % Game.mapLenght] == 4) {
+                    move = "SHOOT#";
+                }
+            } else if (target_cell == myPlace + 1) {
+                move = "DOWN#";
+                if (Game.map[(myPlace + 1) / Game.mapLenght][(myPlace + 1) % Game.mapLenght] == 4) {
+                    move = "SHOOT#";
+                }
+            } else if (target_cell == myPlace - 1) {
+                move = "UP#";
+                if (Game.map[(myPlace - 1) / Game.mapLenght][(myPlace - 1) % Game.mapLenght] == 4) {
+                    move = "SHOOT#";
+                }
             }
-        } else if (target_cell == myPlace + 1) {
-            move = "DOWN#";
-            if (Game.map[(myPlace + 1) / Game.mapLenght][(myPlace + 1) % Game.mapLenght] == 4) {
-                move = "SHOOT#";
-            }
-        } else if (target_cell == myPlace - 1) {
-            move = "UP#";
-            if (Game.map[(myPlace - 1) / Game.mapLenght][(myPlace - 1) % Game.mapLenght] == 4) {
-                move = "SHOOT#";
+        } else if (method == 3) {
+            if (target_cell == myPlace + Game.mapLenght) {
+                move = "RIGHT#";
+                if (Game.map[(myPlace + 10) / Game.mapLenght][(myPlace + 10) % Game.mapLenght] == 4) {
+                    move = "SHOOT#";
+                }
+            } else if (target_cell == myPlace - Game.mapLenght) {
+                move = "LEFT#";
+                if (Game.map[(myPlace - 10) / Game.mapLenght][(myPlace - 10) % Game.mapLenght] == 4) {
+                    move = "SHOOT#";
+                }
+            } else if (target_cell == myPlace + 1) {
+                move = "DOWN#";
+                if (Game.map[(myPlace + 1) / Game.mapLenght][(myPlace + 1) % Game.mapLenght] == 4) {
+                    move = "SHOOT#";
+                }
+            } else if (target_cell == myPlace - 1) {
+                move = "UP#";
+                if (Game.map[(myPlace - 1) / Game.mapLenght][(myPlace - 1) % Game.mapLenght] == 4) {
+                    move = "SHOOT#";
+                }
             }
         }
         return move;

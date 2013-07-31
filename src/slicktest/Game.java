@@ -255,7 +255,9 @@ public class Game extends BasicGame {
             coins.get(i).getAnime().draw(coins.get(i).getX(), coins.get(i).getY(), SIZE, SIZE);
         }
         for (int i = 0; i < tanks.length; i++) {
-            tanks[i][tank_positions[i][2]].draw(tank_positions[i][0], tank_positions[i][1], SIZE, SIZE);
+            if (Game.tank_positions[i][4] > 0) {
+                tanks[i][tank_positions[i][2]].draw(tank_positions[i][0], tank_positions[i][1], SIZE, SIZE);
+            }
         }
 
     }
