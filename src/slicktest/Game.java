@@ -25,7 +25,7 @@ public class Game extends BasicGame {
     private Animation waters[];
     private Animation tanks[][];
     private float x = 34f * 4, y = 34f * 4;
-   // public static final int SIZE = 50;
+    // public static final int SIZE = 50;
     public static final int SIZE = 30;
     private boolean[][] blocked;
     private static Server server;
@@ -53,7 +53,8 @@ public class Game extends BasicGame {
             new Play().start();
             server = new Server();
             AppGameContainer app = new AppGameContainer(new Game());
-            app.setDisplayMode(SIZE * mapLenght, SIZE * mapWidth, false);
+            //18 is the extra cells for scoreboard 
+            app.setDisplayMode(SIZE * (18 + mapLenght), SIZE * mapWidth, false);
             map = new int[mapLenght][mapWidth];
             app.start();
         } catch (SlickException e) {
@@ -65,7 +66,8 @@ public class Game extends BasicGame {
     public void init(GameContainer container) throws SlickException {
 
         //grassMap = new TiledMap("Images/map50_10x10.tmx");//can change the size
-        grassMap = new TiledMap("Images/map30_20x20.tmx");//can change the size
+        //grassMap = new TiledMap("Images/map30_20x20.tmx");//can change the size
+        grassMap = new TiledMap("Images/map30_20x20_scoreBoard.tmx");//can change the size
         Image[] movementUp = {new Image("Images/plane.png"), new Image("Images/plane.png")};
         Image[] brick = {new Image("Images/brick.jpg"), new Image("Images/brick.jpg")};
         Image[] stone = {new Image("Images/rock.jpg"), new Image("Images/rock.jpg")};
@@ -264,5 +266,21 @@ public class Game extends BasicGame {
             }
         }
 
+        g.drawString("Player", (mapLenght + 2) * SIZE, 2 * SIZE);
+        g.drawString("Coins", (mapLenght + 7) * SIZE, 2 * SIZE);
+        g.drawString("Points", (mapLenght + 10) * SIZE, 2 * SIZE);
+        g.drawString("Health", (mapLenght + 13) * SIZE, 2 * SIZE);
+
+        for (int i = 0; i < tank_positions.length; i++) {
+            if (myTank != i) {
+                g.drawString("Player " + i, (mapLenght + 2) * SIZE, (4 + i) * SIZE);
+            } else {
+                g.drawString("BloodSpot (" + i + ")", (mapLenght + 2) * SIZE, (4 + i) * SIZE);
+
+            }
+            g.drawString("" + tank_positions[i][5], (mapLenght + 7) * SIZE, (4 + i) * SIZE);
+            g.drawString("" + tank_positions[i][6], (mapLenght + 10) * SIZE, (4 + i) * SIZE);
+            g.drawString("" + tank_positions[i][4], (mapLenght + 13) * SIZE, (4 + i) * SIZE);
+        }
     }
 }
