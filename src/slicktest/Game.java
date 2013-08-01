@@ -25,7 +25,8 @@ public class Game extends BasicGame {
     private Animation waters[];
     private Animation tanks[][];
     private float x = 34f * 4, y = 34f * 4;
-    public static final int SIZE = 50;
+   // public static final int SIZE = 50;
+    public static final int SIZE = 30;
     private boolean[][] blocked;
     private static Server server;
     public static int[][] bricks_coordinates;
@@ -36,8 +37,10 @@ public class Game extends BasicGame {
     public static int[][] tank_positions;
     public static ArrayList<Coins> coins = new ArrayList<>();
     public static ArrayList<Life> lives = new ArrayList<>();
-    public static final int mapLenght = 10;
-    public static final int mapWidth = 10;
+//    public static final int mapLenght = 10;
+//    public static final int mapWidth = 10;
+    public static final int mapLenght = 20;
+    public static final int mapWidth = 20;
     public static int[][] map;// bricks =1,stones = 2, water = 3 , tank =4 , coin =5, life = 6;
     public static boolean edges[][];
 
@@ -61,7 +64,8 @@ public class Game extends BasicGame {
     @Override
     public void init(GameContainer container) throws SlickException {
 
-        grassMap = new TiledMap("Images/map50_10x10.tmx");//can change the size
+        //grassMap = new TiledMap("Images/map50_10x10.tmx");//can change the size
+        grassMap = new TiledMap("Images/map30_20x20.tmx");//can change the size
         Image[] movementUp = {new Image("Images/plane.png"), new Image("Images/plane.png")};
         Image[] brick = {new Image("Images/brick.jpg"), new Image("Images/brick.jpg")};
         Image[] stone = {new Image("Images/rock.jpg"), new Image("Images/rock.jpg")};
