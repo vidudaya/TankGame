@@ -56,7 +56,7 @@ public class Game extends BasicGame {
             //18 is the extra cells for scoreboard 
             app.setDisplayMode(SIZE * (18 + mapLenght), SIZE * mapWidth, false);
             map = new int[mapLenght][mapWidth];
-            app.setTargetFrameRate(15);
+            //app.setTargetFrameRate(15);
             app.setAlwaysRender(true);
             app.start();
         } catch (SlickException e) {
@@ -76,7 +76,7 @@ public class Game extends BasicGame {
         Image[] water = {new Image("Images/water.jpg"), new Image("Images/water.jpg")};
         Image[] coin = {new Image("Images/coin.png"), new Image("Images/coin.png")};
         Image[] health = {new Image("Images/health.png"), new Image("Images/health.png")};
-        Image fff = new Image("Images/water.jpg");
+        //Image fff = new Image("Images/water.jpg");
 
         Image[][][] tanks_aims = new Image[5][4][2];
         //0=up , 1=right , 2=down , 3=left
@@ -150,7 +150,7 @@ public class Game extends BasicGame {
 
 
 
-        int[] duration = {300, 300};
+        int[] duration = {30, 30};
 
         try {
             String f = server.readSENDMessage();
@@ -182,7 +182,7 @@ public class Game extends BasicGame {
             }
             waters = new Animation[water_coordinates.length];
             for (int i = 0; i < water_coordinates.length; i++) {
-                waters[i] = new Animation(water, duration, false);
+                waters[i] = new Animation(water, duration, true);
             }
 
             //0=up , 1=right , 2=down , 3=left

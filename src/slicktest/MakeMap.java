@@ -45,6 +45,18 @@ public class MakeMap {
         }
         return water;
     }
+//    public int[][] markTank(String s, int cell_Size) {
+//        String points[] = s.replaceAll("#", "").split(";");
+//        int water[][] = new int[points.length][2];
+//
+//        for (int i = 0; i < water.length; i++) {
+//            String temp[] = points[i].split(",");
+//            water[i][0] = (Integer.parseInt(temp[0])) * cell_Size;
+//            water[i][1] = (Integer.parseInt(temp[1])) * cell_Size;
+//            Game.map[water[i][0] / cell_Size][water[i][1] / cell_Size] = 3;
+//        }
+//        return water;
+//    }
 
     public int[][] makeTanksPositions(String s, int cell_size) {
         String sets[] = s.replaceAll("#", "").split(":");
