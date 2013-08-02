@@ -41,7 +41,6 @@ public class AI {
                 }
             }
             color[u] = 2;
-
         }
 
     }
@@ -61,46 +60,79 @@ public class AI {
         boolean hasSite = false;
 
         for (int i = 0; i < Game.tank_positions.length; i++) {
-            if (i != Game.myTank) {
-                int uX = Game.tank_positions[Game.myTank][0] / Game.SIZE;
-                int uY = Game.tank_positions[Game.myTank][1] / Game.SIZE;
-                int uFace = Game.tank_positions[Game.myTank][2];
+            if (i != Game.myTank && Game.tank_positions[i][4]>0) {
+                int uX = Game.tank_positions[i][0] / Game.SIZE;
+                int uY = Game.tank_positions[i][1] / Game.SIZE;
+                int uFace = Game.tank_positions[i][2];
+
 
 
 
                 if (myX == uX) {
-                    System.out.println("myX = " + myX + "  uX = " + uX);
+                    System.out.println("myX = " + myX + "  uX = " + uX + "  myY = " + myY + "  uY = " + uY);
+
+
                     int max;
                     int min;
-                    if (myY > uY) {
-                        max = myY;
-                        min = uY;
-                    } else {
-                        max = uY;
+                    if (myY < uY) { //assume ---->x
+
+                        if (myFace != 2) {
+                            System.out.println(" side = " + myFace);
+                            return hasSite;
+                        }
+
                         min = myY;
+                        max = uY;
+                    } else {
+                        if (myFace != 0) {
+                            System.out.println(" side = " + myFace);
+                            return hasSite;
+                        }
+
+                        min = uY;
+                        max = myY;
                     }
-                    for (int j = min + 1; j < max; j++) {
-                        if (Game.map[myX][min] != 0 || Game.map[myX][min] != 4) {
+                    System.out.println("min = " + min + " max = " + max);
+                    for (int j = min + 1; j <= max; j++) {
+                        System.out.println("@@@");
+                        if (Game.map[myX][j] != 0 || Game.map[myX][j] != 4) {
+                            //if (Game.map[min][myX] != 0 || Game.map[min][myX] != 4) {
                             hasSite = true;
                             return hasSite;
+                        } else {
+                            System.out.println("who is it = " + Game.map[myX][j]);
                         }
                     }
                 }
                 if (myY == uY) {
-                    System.out.println("myY = " + myY + "  uY = " + uY);
+                    System.out.println("myY = " + myY + "  uY = " + uY + "  myX = " + myX + "  uX = " + uX);
                     int max;
                     int min;
-                    if (myX > uX) {
-                        max = myX;
-                        min = uX;
-                    } else {
-                        max = uX;
+                    if (myX < uX) {
+                        if (myFace != 1) {
+                            System.out.println(" side = " + myFace);
+                            return hasSite;
+                        }
+
                         min = myX;
+                        max = uX;
+                    } else {
+                        if (myFace != 3) {
+                            System.out.println(" side = " + myFace);
+                            return hasSite;
+                        }
+                        min = uX;
+                        max = myX;
                     }
-                    for (int j = min + 1; j < max; j++) {
-                        if (Game.map[myY][min] != 0 || Game.map[myY][min] != 4) {
+                    System.out.println("min = " + min + " max = " + max);
+                    for (int j = min + 1; j <= max; j++) {
+                        System.out.println("@@@");
+                        if (Game.map[myY][j] != 0 || Game.map[myY][j] != 4) {
+                            //  if (Game.map[min][myY] != 0 || Game.map[min][myY] != 4) {
                             hasSite = true;
                             return hasSite;
+                        } else {
+                            System.out.println("who is it = " + Game.map[myX][j]);
                         }
                     }
                 }
@@ -167,7 +199,7 @@ public class AI {
 
             ABC:
             for (int i = 0; i < Game.tank_positions.length; i++) {
-                if (i != Game.myTank) {
+                if (i != Game.myTank && Game.tank_positions[i][4] > 0) {
                     int place = (Game.tank_positions[i][0] / Game.SIZE) * Game.mapLenght + (Game.tank_positions[i][1] / Game.SIZE);
                     //int remaining_life = (Game.tank_positions[i][4]);
 
