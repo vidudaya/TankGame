@@ -56,6 +56,8 @@ public class Game extends BasicGame {
             //18 is the extra cells for scoreboard 
             app.setDisplayMode(SIZE * (18 + mapLenght), SIZE * mapWidth, false);
             map = new int[mapLenght][mapWidth];
+            app.setTargetFrameRate(15);
+            app.setAlwaysRender(true);
             app.start();
         } catch (SlickException e) {
             e.printStackTrace();
@@ -78,7 +80,7 @@ public class Game extends BasicGame {
 
         Image[][][] tanks_aims = new Image[5][4][2];
         //0=up , 1=right , 2=down , 3=left
-        Image[] tank1_up = {new Image("Images/tanks/1U.png"), new Image("Images/tanks/1U.png")};
+        Image[] tank1_up = {new Image("Images/tanks/1U.png"), new Image("Images/tanks/1U.png")};//dark green
         Image[] tank1_right = {new Image("Images/tanks/1R.png"), new Image("Images/tanks/1R.png")};
         Image[] tank1_down = {new Image("Images/tanks/1D.png"), new Image("Images/tanks/1D.png")};
         Image[] tank1_left = {new Image("Images/tanks/1L.png"), new Image("Images/tanks/1L.png")};
@@ -86,7 +88,7 @@ public class Game extends BasicGame {
         tanks_aims[0][1] = tank1_right;
         tanks_aims[0][2] = tank1_down;
         tanks_aims[0][3] = tank1_left;
-        Image[] tank2_up = {new Image("Images/tanks/2U.png"), new Image("Images/tanks/2U.png")};
+        Image[] tank2_up = {new Image("Images/tanks/2U.png"), new Image("Images/tanks/2U.png")};//purple
         Image[] tank2_right = {new Image("Images/tanks/2R.png"), new Image("Images/tanks/2R.png")};
         Image[] tank2_down = {new Image("Images/tanks/2D.png"), new Image("Images/tanks/2D.png")};
         Image[] tank2_left = {new Image("Images/tanks/2L.png"), new Image("Images/tanks/2L.png")};
@@ -94,7 +96,7 @@ public class Game extends BasicGame {
         tanks_aims[1][1] = tank2_right;
         tanks_aims[1][2] = tank2_down;
         tanks_aims[1][3] = tank2_left;
-        Image[] tank3_up = {new Image("Images/tanks/3U.png"), new Image("Images/tanks/3U.png")};
+        Image[] tank3_up = {new Image("Images/tanks/3U.png"), new Image("Images/tanks/3U.png")};//orange
         Image[] tank3_right = {new Image("Images/tanks/3R.png"), new Image("Images/tanks/3R.png")};
         Image[] tank3_down = {new Image("Images/tanks/3D.png"), new Image("Images/tanks/3D.png")};
         Image[] tank3_left = {new Image("Images/tanks/3L.png"), new Image("Images/tanks/3L.png")};
@@ -102,7 +104,7 @@ public class Game extends BasicGame {
         tanks_aims[2][1] = tank3_right;
         tanks_aims[2][2] = tank3_down;
         tanks_aims[2][3] = tank3_left;
-        Image[] tank4_up = {new Image("Images/tanks/4U.png"), new Image("Images/tanks/4U.png")};
+        Image[] tank4_up = {new Image("Images/tanks/4U.png"), new Image("Images/tanks/4U.png")};//green
         Image[] tank4_right = {new Image("Images/tanks/4R.png"), new Image("Images/tanks/4R.png")};
         Image[] tank4_down = {new Image("Images/tanks/4D.png"), new Image("Images/tanks/4D.png")};
         Image[] tank4_left = {new Image("Images/tanks/4L.png"), new Image("Images/tanks/4L.png")};
@@ -110,7 +112,7 @@ public class Game extends BasicGame {
         tanks_aims[3][1] = tank4_right;
         tanks_aims[3][2] = tank4_down;
         tanks_aims[3][3] = tank4_left;
-        Image[] tank5_up = {new Image("Images/tanks/5U.png"), new Image("Images/tanks/5U.png")};
+        Image[] tank5_up = {new Image("Images/tanks/5U.png"), new Image("Images/tanks/5U.png")};//blue
         Image[] tank5_right = {new Image("Images/tanks/5R.png"), new Image("Images/tanks/5R.png")};
         Image[] tank5_down = {new Image("Images/tanks/5D.png"), new Image("Images/tanks/5D.png")};
         Image[] tank5_left = {new Image("Images/tanks/5L.png"), new Image("Images/tanks/5L.png")};
@@ -265,13 +267,37 @@ public class Game extends BasicGame {
                 tanks[i][tank_positions[i][2]].draw(tank_positions[i][0], tank_positions[i][1], SIZE, SIZE);
             }
         }
-
+        /////////////////////////////////////////////////////////////////////////////////////
+        g.drawLine((mapLenght - 0.5f + 2) * SIZE, 2 * SIZE, (mapLenght + .5f + 15) * SIZE, 2 * SIZE);
+        g.drawLine((mapLenght - 0.5f + 2) * SIZE, 3 * SIZE, (mapLenght + .5f + 15) * SIZE, 3 * SIZE);
+        g.drawLine((mapLenght - .5f + 2) * SIZE, 2 * SIZE, (mapLenght - .5f + 2) * SIZE, (8 + .5f) * SIZE);
+        g.drawLine((mapLenght + .5f + 15) * SIZE, 2 * SIZE, (mapLenght + .5f + 15) * SIZE, (8 + .5f) * SIZE);
+        g.drawLine((mapLenght - 0.5f + 2) * SIZE, (8 + .5f) * SIZE, (mapLenght + .5f + 15) * SIZE, (8 + .5f) * SIZE);
+        
+        g.drawLine((mapLenght - 0.5f + 7) * SIZE, 2 * SIZE, (mapLenght - 0.5f + 7) * SIZE, (8 + .5f) * SIZE);
+        g.drawLine((mapLenght - 0.5f + 10) * SIZE, 2 * SIZE, (mapLenght - 0.5f + 10) * SIZE, (8 + .5f) * SIZE);
+        g.drawLine((mapLenght - 0.5f + 13) * SIZE, 2 * SIZE, (mapLenght - 0.5f + 13) * SIZE, (8 + .5f) * SIZE);
+        
+        
         g.drawString("Player", (mapLenght + 2) * SIZE, 2 * SIZE);
         g.drawString("Coins", (mapLenght + 7) * SIZE, 2 * SIZE);
         g.drawString("Points", (mapLenght + 10) * SIZE, 2 * SIZE);
         g.drawString("Health", (mapLenght + 13) * SIZE, 2 * SIZE);
 
+        Color darkGreen = new Color(47, 79, 47);
+        Color lightGreen = new Color(Color.green);
+        Color purple = new Color(Color.pink);
+        Color orange = new Color(Color.orange);
+        Color blue = new Color( Color.blue);
+        Color colors[] = new Color[5];
+        colors[0]=darkGreen;
+        colors[1]=purple;
+        colors[2]=orange;
+        colors[3]=lightGreen;
+        colors[4]=blue;
+        
         for (int i = 0; i < tank_positions.length; i++) {
+            g.setColor(colors[i]);
             if (myTank != i) {
                 g.drawString("Player " + i, (mapLenght + 2) * SIZE, (4 + i) * SIZE);
             } else {
@@ -282,5 +308,7 @@ public class Game extends BasicGame {
             g.drawString("" + tank_positions[i][6], (mapLenght + 10) * SIZE, (4 + i) * SIZE);
             g.drawString("" + tank_positions[i][4], (mapLenght + 13) * SIZE, (4 + i) * SIZE);
         }
+        g.setColor(Color.white);
+
     }
 }
