@@ -23,13 +23,29 @@ public class HandleCoinsAndHealth {
         Game.map[x / cell_size][y / cell_size] = 5;
         int time = Integer.parseInt(tokens[2]);
         int value = Integer.parseInt(tokens[3]);
-        //System.out.println("coin time = " + time);
+
+        if (time == 5000) {
+            System.out.println("Coin piles before= " + Game.killCoins.size());
+            System.out.println("May be Dead = " + value);
+        }//System.out.println("coin time = " + time);
 
         try {
-            org.newdawn.slick.Image[] coin = {new org.newdawn.slick.Image("Images/coin.png"), new org.newdawn.slick.Image("Images/coin.png")};
-            Animation anime = new Animation(coin, time, true);
-            Game.coins.add(new Coins(x, y, value, time, anime));
+            if (time != 5000) {
+                org.newdawn.slick.Image[] coin = {new org.newdawn.slick.Image("Images/coin.png"), new org.newdawn.slick.Image("Images/coin.png")};
+                Animation anime = new Animation(coin, time, true);
+                Game.coins.add(new Coins(x, y, value, time, anime));
+
+            } else {
+                org.newdawn.slick.Image[] coin = {new org.newdawn.slick.Image("Images/plane.png"), new org.newdawn.slick.Image("Images/plane.png")};
+                Animation anime = new Animation(coin, time, true);
+                Game.killCoins.add(new Coins(x, y, value, time, anime));
+                System.out.println("X = " + x + "  Y = " + y);
+            }
+            if (time == 5000) {
+                System.out.println("Coin piles after = " + Game.killCoins.size());
+            }
         } catch (Exception e) {
+            System.out.println("coin pile error =  " + e);
         }
     }
 
@@ -46,6 +62,19 @@ public class HandleCoinsAndHealth {
         }
     }
 
+    public void updateKillCoin(int delta) {
+        for (int i = 0; i < Game.killCoins.size(); i++) {
+            Game.killCoins.get(i).decayTime(delta);
+            //System.out.println("now coin " + i + " time = " + Game.coins.get(i).getTime());
+            if (Game.killCoins.get(i).getTime() <= 0) {
+                Game.map[Game.killCoins.get(i).getX() / Game.SIZE][Game.killCoins.get(i).getY() / Game.SIZE] = 0;
+                Game.killCoins.remove(i);
+                i--;
+                /////////////////////////////////////////////////////////
+            }
+        }
+    }
+
     public void detectCoinCollisions() {
         for (int i = 0; i < Game.tank_positions.length; i++) {
             int x = Game.tank_positions[i][0];
@@ -56,6 +85,24 @@ public class HandleCoinsAndHealth {
                 if (x == xx && y == yy) {
                     Game.map[x / Game.SIZE][y / Game.SIZE] = 0;
                     Game.coins.remove(j);
+                }
+            }
+        }
+    }
+
+    public void detectKillCoinCollisions() {
+        for (int i = 0; i < Game.tank_positions.length; i++) {
+            if (Game.tank_positions[i][4] > 10) {
+                int x = Game.tank_positions[i][0];
+                int y = Game.tank_positions[i][1];
+                for (int j = 0; j < Game.killCoins.size(); j++) {
+                    int xx = Game.killCoins.get(j).getX();
+                    int yy = Game.killCoins.get(j).getY();
+                    if (x == xx && y == yy) {
+                        System.out.println("geting the pile by " + i + "  life = " + Game.tank_positions[i][4]);
+                        Game.map[x / Game.SIZE][y / Game.SIZE] = 0;
+                        Game.killCoins.remove(j);
+                    }
                 }
             }
         }

@@ -21,6 +21,7 @@ public class Server {
             this.serverSocket = new ServerSocket(7000);
         } catch (IOException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("cant listen to "+7000);
         }
     }
 

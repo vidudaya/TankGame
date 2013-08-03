@@ -36,6 +36,7 @@ public class Game extends BasicGame {
     public static int myTank;
     public static int[][] tank_positions;
     public static ArrayList<Coins> coins = new ArrayList<>();
+    public static ArrayList<Coins> killCoins = new ArrayList<>();
     public static ArrayList<Life> lives = new ArrayList<>();
 //    public static final int mapLenght = 10;
 //    public static final int mapWidth = 10;
@@ -199,6 +200,7 @@ public class Game extends BasicGame {
 
         } catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("init error : " + ex);
         }
 
     }
@@ -215,9 +217,11 @@ public class Game extends BasicGame {
         Play play = new Play();
 
         hcoinshealth.updateCoin(delta);
+        // hcoinshealth.updateKillCoin(delta);
         hcoinshealth.detectCoinCollisions();
         hcoinshealth.updateLife(delta);
         hcoinshealth.detectLifeCollisions();
+        hcoinshealth.detectKillCoinCollisions();
         try {
             String message = server.readSENDMessage();
             System.out.println("msg : " + message);
@@ -235,10 +239,12 @@ public class Game extends BasicGame {
                 hcoinshealth.handleLives(message, SIZE);
                 // play.makeMove(moveAndShoot.getTheNextMove());
             } else if (message.charAt(0) == 'C') {
+                play.makeMove("SHOOT#");
             }
 
         } catch (IOException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("readSendMessage error : "+ex);
         }
     }
 
@@ -262,6 +268,9 @@ public class Game extends BasicGame {
         for (int i = 0; i < coins.size(); i++) {
             coins.get(i).getAnime().draw(coins.get(i).getX(), coins.get(i).getY(), SIZE, SIZE);
         }
+        for (int i = 0; i < killCoins.size(); i++) {
+            killCoins.get(i).getAnime().draw(killCoins.get(i).getX(), killCoins.get(i).getY(), SIZE, SIZE);
+        }
         for (int i = 0; i < tanks.length; i++) {
             if (Game.tank_positions[i][4] > 0) {
                 tanks[i][tank_positions[i][2]].draw(tank_positions[i][0], tank_positions[i][1], SIZE, SIZE);
@@ -273,12 +282,12 @@ public class Game extends BasicGame {
         g.drawLine((mapLenght - .5f + 2) * SIZE, 2 * SIZE, (mapLenght - .5f + 2) * SIZE, (8 + .5f) * SIZE);
         g.drawLine((mapLenght + .5f + 15) * SIZE, 2 * SIZE, (mapLenght + .5f + 15) * SIZE, (8 + .5f) * SIZE);
         g.drawLine((mapLenght - 0.5f + 2) * SIZE, (8 + .5f) * SIZE, (mapLenght + .5f + 15) * SIZE, (8 + .5f) * SIZE);
-        
+
         g.drawLine((mapLenght - 0.5f + 7) * SIZE, 2 * SIZE, (mapLenght - 0.5f + 7) * SIZE, (8 + .5f) * SIZE);
         g.drawLine((mapLenght - 0.5f + 10) * SIZE, 2 * SIZE, (mapLenght - 0.5f + 10) * SIZE, (8 + .5f) * SIZE);
         g.drawLine((mapLenght - 0.5f + 13) * SIZE, 2 * SIZE, (mapLenght - 0.5f + 13) * SIZE, (8 + .5f) * SIZE);
-        
-        
+
+
         g.drawString("Player", (mapLenght + 2) * SIZE, 2 * SIZE);
         g.drawString("Coins", (mapLenght + 7) * SIZE, 2 * SIZE);
         g.drawString("Points", (mapLenght + 10) * SIZE, 2 * SIZE);
@@ -288,14 +297,14 @@ public class Game extends BasicGame {
         Color lightGreen = new Color(Color.green);
         Color purple = new Color(Color.pink);
         Color orange = new Color(Color.orange);
-        Color blue = new Color( Color.blue);
+        Color blue = new Color(Color.blue);
         Color colors[] = new Color[5];
-        colors[0]=darkGreen;
-        colors[1]=purple;
-        colors[2]=orange;
-        colors[3]=lightGreen;
-        colors[4]=blue;
-        
+        colors[0] = darkGreen;
+        colors[1] = purple;
+        colors[2] = orange;
+        colors[3] = lightGreen;
+        colors[4] = blue;
+
         for (int i = 0; i < tank_positions.length; i++) {
             g.setColor(colors[i]);
             if (myTank != i) {

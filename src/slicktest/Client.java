@@ -14,9 +14,11 @@ public class Client {
     BufferedWriter write;
 
     // this method is used to send the message through the Socket  
-    void sendMessage(String msg) {
+    void sendMessage(String msg) {//169.254.129.189
         try {
             clientSocket = new Socket("127.0.0.1", 6000);
+            //clientSocket = new Socket("10.8.0.2", 6000);
+            //clientSocket = new Socket("169.254.129.189", 6000);
             write = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
             write.write(msg);
             write.flush();
@@ -26,6 +28,7 @@ public class Client {
 
         } catch (IOException ioException) {
             ioException.printStackTrace();
+            System.out.println("cant send to 6000   : " + ioException);
         }
     }
 
